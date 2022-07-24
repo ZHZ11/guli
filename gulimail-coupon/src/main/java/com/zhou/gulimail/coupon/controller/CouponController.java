@@ -3,6 +3,7 @@ package com.zhou.gulimail.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.zhou.gulimail.coupon.feign.MemberFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,9 +31,17 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @Autowired
+    private MemberFeignService memberFeignService;
+
     /**
      * 列表
      */
+    @RequestMapping("test")
+    public R test() {
+        return memberFeignService.test();
+    }
+
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = couponService.queryPage(params);
