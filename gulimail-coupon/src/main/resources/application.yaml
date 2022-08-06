@@ -6,7 +6,6 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.117.130:8848
-        namespace: f5a94be1-5a1c-4691-b1b2-1177f32fbea2
 
 
 #mybatis的sql映射文件位置
