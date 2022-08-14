@@ -1,18 +1,13 @@
 package com.zhou.gulimail.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zhou.gulimail.product.entity.CategoryEntity;
 import com.zhou.gulimail.product.service.CategoryService;
-import com.zhou.common.utils.PageUtils;
 import com.zhou.common.utils.R;
 
 
@@ -33,13 +28,10 @@ public class CategoryController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
-
-        return R.ok().put("page", page);
+    @RequestMapping("/list/tree")
+    public R list(){
+        return R.ok().put("data", this.categoryService.getCategoryTree());
     }
-
 
     /**
      * 信息
@@ -75,9 +67,14 @@ public class CategoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+    public R delete(@RequestBody List<Long> catIds){
+        this.categoryService.deleteById(catIds);
+        return R.ok();
+    }
 
+    @RequestMapping("/update/sort")
+    public R saveUpdate(@RequestBody List<CategoryEntity> categoryEntityList) {
+        this.categoryService.updateBatchById(categoryEntityList);
         return R.ok();
     }
 
