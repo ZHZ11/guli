@@ -62,7 +62,7 @@ public class CategoryEntity implements Serializable {
 	 */
 	private Integer productCount;
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)//如果字段为null，则不序列化
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)//如果字段为null，则不序列化
 	@TableField(exist = false) //表示当前属性不是数据库字段，在项目有使用到，声明后使用bean，mybatis-puls会忽略不会映射报错
 	private List<CategoryEntity> children;
 }

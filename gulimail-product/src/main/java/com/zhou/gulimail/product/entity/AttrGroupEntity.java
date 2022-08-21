@@ -1,15 +1,17 @@
 package com.zhou.gulimail.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
  * 属性分组
- * 
+ *
  * @author zhouhaizhan
  * @email 1363003594@qq.com
  * @date 2022-07-23 15:48:15
@@ -44,5 +46,11 @@ public class AttrGroupEntity implements Serializable {
 	 * 所属分类id
 	 */
 	private Long catelogId;
+
+	/**
+	 * 路径
+	 */
+	@TableField(exist = false)
+	private List<Long> catelogPath;
 
 }

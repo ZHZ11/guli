@@ -1,5 +1,8 @@
 package com.zhou.gulimail.product.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
+import com.zhou.gulimail.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +18,14 @@ import com.zhou.common.utils.Query;
 import com.zhou.gulimail.product.dao.CategoryDao;
 import com.zhou.gulimail.product.entity.CategoryEntity;
 import com.zhou.gulimail.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -45,6 +52,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public void deleteById(List<Long> ids) {
         baseMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public void findCatelogPath(Long categoryId, List<Long> catelogPath) {
+        catelogPath.add(categoryId);
+        CategoryEntity categoryEntity = baseMapper.selectById(categoryId);
+        if (categoryEntity.getParentCid() != 0) findCatelogPath(categoryEntity.getParentCid(), catelogPath);
+    }
+
+    @Transactional
+    @Override
+    public void updateDetail(CategoryEntity category) {
+        this.updateById(category);
+        if (!StringUtils.isEmpty(category.getName())) categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
