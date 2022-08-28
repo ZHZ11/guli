@@ -65,12 +65,12 @@ public class SpuInfoController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
-        return R.ok();
-    }
+//    @RequestMapping("/save")
+//    public R save(@RequestBody SpuInfoEntity spuInfo){
+//		spuInfoService.save(spuInfo);
+//
+//        return R.ok();
+//    }
 
     /**
      * 修改
