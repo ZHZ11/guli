@@ -2,19 +2,21 @@ package com.zhou.gulimail.product.controller;
 
 import java.util.*;
 
+import com.zhou.gulimail.product.entity.AttrEntity;
+import com.zhou.gulimail.product.service.AttrAttrgroupRelationService;
+import com.zhou.gulimail.product.service.AttrService;
 import com.zhou.gulimail.product.service.CategoryService;
+import com.zhou.gulimail.product.vo.AttrGroupRelationVo;
+import com.zhou.gulimail.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zhou.gulimail.product.entity.AttrGroupEntity;
 import com.zhou.gulimail.product.service.AttrGroupService;
 import com.zhou.common.utils.PageUtils;
 import com.zhou.common.utils.R;
 
+import javax.annotation.Resource;
 
 
 /**
@@ -27,10 +29,14 @@ import com.zhou.common.utils.R;
 @RestController
 @RequestMapping("product/attrgroup")
 public class AttrGroupController {
-    @Autowired
+    @Resource
     private AttrGroupService attrGroupService;
-    @Autowired
+    @Resource
     private CategoryService categoryService;
+    @Resource
+    private AttrService attrService;
+    @Resource
+    private AttrAttrgroupRelationService relationService;
 
     /**
      * 列表
@@ -42,6 +48,39 @@ public class AttrGroupController {
         return R.ok().put("page", page);
     }
 
+    @GetMapping("{attrgroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId){
+        List<AttrEntity> attrEntities = attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data",attrEntities);
+    }
+
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody List<AttrGroupRelationVo> vos){
+        attrService.deletRelation(vos);
+        return R.ok();
+    }
+
+    // /product/attrgroup/attr/relation
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos){
+        relationService.saveBatch(vos);
+        return R.ok();
+    }
+
+    @GetMapping("{attrgroupId}/noattr/relation")
+    public R NoattrRelation(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam Map<String, Object> params) {
+        PageUtils page = attrService.getNoAttrRelation(params, attrgroupId);
+        return R.ok().put("page", page);
+    }
+
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttrs(@PathVariable("catelogId") Long catelogId){
+        //1、查出当前分类下的所有分组
+
+        //2、查出每个分组下的所有属性
+        List<AttrGroupWithAttrsVo> list = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+        return R.ok().put("data",list);
+    }
 
     /**
      * 信息

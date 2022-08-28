@@ -13,7 +13,7 @@ import com.zhou.gulimail.product.entity.CategoryBrandRelationEntity;
 import com.zhou.gulimail.product.entity.CategoryEntity;
 import com.zhou.gulimail.product.service.BrandService;
 import com.zhou.gulimail.product.service.CategoryBrandRelationService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,22 +24,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import javax.annotation.Resource;
 
 
 @Service("categoryBrandRelationService")
 public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandRelationDao, CategoryBrandRelationEntity> implements CategoryBrandRelationService {
 
-    @Autowired
+    @Resource
     private BrandDao brandDao;
 
-    @Autowired
+    @Resource
     private CategoryDao categoryDao;
 
-//    @Autowired
-//    private CategoryBrandRelationDao relationDao;
-//
-//    @Autowired
-//    BrandService brandService;
+    @Resource
+    private CategoryBrandRelationDao categoryBrandRelationDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -85,14 +83,13 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public List<BrandEntity> getBrandsByCatId(Long catId) {
 
-//        List<CategoryBrandRelationEntity> catelogId = relationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
-//        List<BrandEntity> collect = catelogId.stream().map(item -> {
-//            Long brandId = item.getBrandId();
-//            BrandEntity byId = brandService.getById(brandId);
-//            return byId;
-//        }).collect(Collectors.toList());
-//        return collect;
-        return null;
+        List<CategoryBrandRelationEntity> catelogId = categoryBrandRelationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        List<BrandEntity> collect = catelogId.stream().map(item -> {
+            Long brandId = item.getBrandId();
+            BrandEntity byId = brandDao.selectById(brandId);
+            return byId;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }
