@@ -35,14 +35,14 @@ spring:
           predicates:
             - Path=/api/member/**
           filters:
-            - RewritePath=/api/member/(?<segment>.*),/$\{segment}
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
 
         - id: ware_route
           uri: lb://ware
           predicates:
             - Path=/api/ware/**
           filters:
-            - RewritePath=/api/ware/(?<segment>.*),/$\{segment}
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
 
         - id: thirdparty_route
           uri: lb://thirdparty
