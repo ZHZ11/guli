@@ -216,4 +216,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         return new PageUtils(page);
     }
+
+    @Override
+    public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+        return this.baseMapper.selectOne(new QueryWrapper<SpuInfoEntity>().eq());
+    }
+
+
 }

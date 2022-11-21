@@ -82,4 +82,13 @@ public class SkuFullReductionController {
         return R.ok();
     }
 
+    /**
+     * 保存
+     */
+    @RequestMapping("/saveInfo")
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo){
+        skuFullReductionService.saveReduction(skuReductionTo);
+
+        return R.ok();
+    }
 }
