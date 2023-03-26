@@ -1,8 +1,14 @@
 package com.zhou.gulimail.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhou.common.to.SkuReductionTo;
 import com.zhou.common.to.SpuBoundTo;
+import com.zhou.common.utils.PageUtils;
+import com.zhou.common.utils.Query;
 import com.zhou.common.utils.R;
+import com.zhou.gulimail.product.dao.SpuInfoDao;
 import com.zhou.gulimail.product.entity.*;
 import com.zhou.gulimail.product.feign.CouponFeignService;
 import com.zhou.gulimail.product.service.*;
@@ -10,23 +16,14 @@ import com.zhou.gulimail.product.vo.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zhou.common.utils.PageUtils;
-import com.zhou.common.utils.Query;
-
-import com.zhou.gulimail.product.dao.SpuInfoDao;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 
 @Service("spuInfoService")
@@ -219,7 +216,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Override
     public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
-        return this.baseMapper.selectOne(new QueryWrapper<SpuInfoEntity>().eq());
+//        return this.baseMapper.selectOne(new QueryWrapper<SpuInfoEntity>().eq());
+        return null;
     }
 
 
