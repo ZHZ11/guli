@@ -42,7 +42,7 @@
         <!-- oss -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>aliyun-oss-spring-boot-starter</artifactId>
+            <artifactId>spring-cloud-starter-alicloud-oss</artifactId>
         </dependency>
 
 
